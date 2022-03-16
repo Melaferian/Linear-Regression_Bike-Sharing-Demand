@@ -197,7 +197,7 @@ summary(model)
 
 **Did the model perform well on the training data?**
 
-A linear model like the one we chose which uses OLS won't be able to take into account seasonality of our data, and will get thrown off by the growth in our dataset, accidentally attributing it towards the winter season, instead of realizing its just overall demand growing! Later on, we'll see if other models may be a better fit for this sort of data.
+A linear model like the one we chose which uses OLS won't be able to take into account seasonality of our data, and will get thrown off by the growth in our dataset, accidentally attributing it towards the winter season, instead of realizing its just overall demand growing!
 
 **We should have noticed that this sort of model doesn't work well given our seasonal and time series data. We need a model that can account for this type of trend.**
 
