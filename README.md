@@ -28,5 +28,90 @@ The data has the following features:
 - registered - number of registered user rentals initiated
 - count - number of total rentals
 
+## Exploratory Data Analysis
+#### We create a scatter plot of count vs temp. and set a good alpha value.
+
+![1](https://user-images.githubusercontent.com/93712013/158590734-47c53d2c-6867-47b4-9c95-6910635792d9.jpg)
+
+**Plot count versus datetime as a scatterplot with a color gradient based on temperature. We have to convert the datetime column into POSIXct before plotting**.
+
+![2](https://user-images.githubusercontent.com/93712013/158591212-4a45fc01-db92-4cc7-8ae7-fbb043a6c088.jpeg)
+
+**We noticed two things: A seasonality to the data, for winter and summer. Also that bike rental counts are increasing in general. This may present a problem with using a linear regression model if the data is non-linear.** 
+
+#### What is the correlation between temp and count?
+
+         temp     count
+temp  1.0000000 0.3944536
+count 0.3944536 1.0000000
+
+**The correlation is 0,39.**
+
+**Let's explore the season data. We will create a boxplot, with the y axis indicating count and the x axis begin a box for each season.**
+
+![3](https://user-images.githubusercontent.com/93712013/158591741-b8a9f8e9-265d-425d-8599-d6f766f6e13f.jpeg)
+
+**This says:**
+
+* A line can't capture a non-linear relationship.
+* There are more rentals in winter than in spring.
+
+**We know of these issues because of the growth of rental count, this isn't due to the actual season**
+
+## Feature Engineering
+
+We create an "hour" column that takes the hour from the datetime column.
+
+**Now we will create a scatterplot of count versus hour, with color scale based on temp. We only use bike data where workingday==1.**
+
+![4](https://user-images.githubusercontent.com/93712013/158592322-12e2371b-20a3-4cf5-85ca-427a699cee7b.jpeg)
+
+**Now we create the same plot for non working days:**
+
+![5](https://user-images.githubusercontent.com/93712013/158592769-6d12866e-7f41-4afd-acaa-943238125f18.jpeg)
+
+**We should have noticed that working days have peak activity during the morning (~8am) and right after work gets out (~5pm), with some lunchtime activity. While the non-work days have a steady rise and fall for the afternoon**
+
+**Now let's continue by trying to build a model, we'll begin by just looking at a single feature.**
+
+## Building the Model
+**We use lm() to build a model that predicts count based solely on the temp feature**
+
+![6](https://user-images.githubusercontent.com/93712013/158593236-2e137d89-7a19-4eea-9b3b-21163a974850.jpeg)
+
+### Interpreting the intercept (β0):
+
+* It is the value of y when x=0.
+* Thus, it is the estimated number of rentals when the temperature is 0 degrees Celsius.
+* Note: It does not always make sense to interpret the intercept.
+
+## Interpreting the "temp" coefficient (β1):
+
+* It is the change in y divided by change in x, or the "slope".
+* Thus, a temperature increase of 1 degree Celsius is associated with a rental increase of 9.17 bikes.
+* This is not a statement of causation.
+* β1 would be negative if an increase in temperature was associated with a decrease in rentals.
+
+
+**How many bike rentals would we predict if the temperature was 25 degrees Celsius? We will calculate this two ways:**
+
+* Using the values we just got above
+* Using the predict() function
+
+We should get around 235.3 bikes.
+
+* Method 1
+6.0462 + 9.17*25  =  **235.2962**
+
+* Method 2
+```
+temp.test <- data.frame(temp=c(25))
+predict(temp.model,temp.test)
+
+```
+
+
+
+
 
 _Disclaimer : This project is just a project as a learning experience for my courses._
