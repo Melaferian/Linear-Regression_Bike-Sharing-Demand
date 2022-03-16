@@ -41,9 +41,11 @@ The data has the following features:
 
 #### What is the correlation between temp and count?
 
-         temp     count
+```
+           temp     count
 temp  1.0000000 0.3944536
 count 0.3944536 1.0000000
+```
 
 **The correlation is 0,39.**
 
@@ -103,7 +105,7 @@ F-statistic:  2006 on 1 and 10884 DF,  p-value: < 2.2e-16
 * Thus, it is the estimated number of rentals when the temperature is 0 degrees Celsius.
 * Note: It does not always make sense to interpret the intercept.
 
-## Interpreting the "temp" coefficient (β1):
+### Interpreting the "temp" coefficient (β1):
 
 * It is the change in y divided by change in x, or the "slope".
 * Thus, a temperature increase of 1 degree Celsius is associated with a rental increase of 9.17 bikes.
