@@ -77,7 +77,25 @@ We create an "hour" column that takes the hour from the datetime column.
 ## Building the Model
 **We use lm() to build a model that predicts count based solely on the temp feature**
 
-![6](https://user-images.githubusercontent.com/93712013/158593236-2e137d89-7a19-4eea-9b3b-21163a974850.jpeg)
+```
+Call:
+lm(formula = count ~ temp, data = bike)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-293.32 -112.36  -33.36   78.98  741.44 
+
+Coefficients:
+            Estimate Std. Error t value Pr(>|t|)    
+(Intercept)   6.0462     4.4394   1.362    0.173    
+temp          9.1705     0.2048  44.783   <2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 166.5 on 10884 degrees of freedom
+Multiple R-squared:  0.1556,	Adjusted R-squared:  0.1555 
+F-statistic:  2006 on 1 and 10884 DF,  p-value: < 2.2e-16
+```
 
 ### Interpreting the intercept (β0):
 
@@ -115,6 +133,13 @@ We got *235.3097* from the 2nd method.
 **Lets use sapply() and as.numeric to change the hour column to a column of numeric values.**
 
 ```
+bike$hour <- sapply(bike$hour,as.numeric)
+model <- lm(count ~ . -casual - registered -datetime -atemp,bike )
+```
+
+**Summary of the model**
+
+```
 Call:
 lm(formula = count ~ . - casual - registered - datetime - atemp, 
     data = bike)
@@ -142,8 +167,11 @@ Multiple R-squared:  0.3344,	Adjusted R-squared:  0.3339
 F-statistic:   683 on 8 and 10877 DF,  p-value: < 2.2e-16
 ```
 
+**Did the model perform well on the training data?**
 
+A linear model like the one we chose which uses OLS won't be able to take into account seasonality of our data, and will get thrown off by the growth in our dataset, accidentally attributing it towards the winter season, instead of realizing its just overall demand growing!
 
+**We should have noticed that this sort of model doesn't work well given our seasonal and time series data. We need a model that can account for this type of trend.**
 
 
 
