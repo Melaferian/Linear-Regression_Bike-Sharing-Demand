@@ -101,14 +101,47 @@ We create an "hour" column that takes the hour from the datetime column.
 We should get around 235.3 bikes.
 
 * Method 1
+
 6.0462 + 9.17*25  =  **235.2962**
 
 * Method 2
 ```
 temp.test <- data.frame(temp=c(25))
 predict(temp.model,temp.test)
+```
+
+We got *235.3097* from the 2nd method.
+
+**Lets use sapply() and as.numeric to change the hour column to a column of numeric values.**
 
 ```
+Call:
+lm(formula = count ~ . - casual - registered - datetime - atemp, 
+    data = bike)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-324.61  -96.88  -31.01   55.27  688.83 
+
+Coefficients:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  46.91369    8.45147   5.551 2.91e-08 ***
+season       21.70333    1.35409  16.028  < 2e-16 ***
+holiday     -10.29914    8.79069  -1.172    0.241    
+workingday   -0.71781    3.14463  -0.228    0.819    
+weather      -3.20909    2.49731  -1.285    0.199    
+temp          7.01953    0.19135  36.684  < 2e-16 ***
+humidity     -2.21174    0.09083 -24.349  < 2e-16 ***
+windspeed     0.20271    0.18639   1.088    0.277    
+hour          7.61283    0.21688  35.102  < 2e-16 ***
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+Residual standard error: 147.8 on 10877 degrees of freedom
+Multiple R-squared:  0.3344,	Adjusted R-squared:  0.3339 
+F-statistic:   683 on 8 and 10877 DF,  p-value: < 2.2e-16
+```
+
 
 
 
